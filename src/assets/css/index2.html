@@ -1,0 +1,257 @@
+<template>
+    <div class="container">
+      <div class="title"><h1>Todo App</h1></div>
+      <div class="actions">
+        <form @submit="addTask">
+          <input type="text" placeholder="Add Task" v-model="task" required />
+          <button type="submit">Add</button>
+          <div class="search">
+            <input
+              type="text"
+              placeholder="Search task"
+              v-model="searchTerm"
+              @input="searchTask"
+            />
+          </div>
+        </form>
+      </div>
+      <div class="tasks">
+        <div class="task-items" v-for="todo in filteredTodos" :key="todo.id">
+          <p :class="{ 'done-task': todo.status }">{{ todo.details }}</p>
+          <button class="done-btn" @click="toggleTaskStatus(todo.id)">
+            Done
+          </button>
+          <button class="remove-btn" @click="removeTask(todo.id)">Remove</button>
+        </div>
+        <button
+          class="clear-btn"
+          @click="clearAllTasks"
+          v-show="todos.length > 0"
+        >
+          Clear Task
+        </button>
+      </div>
+    </div>
+  </template>
+  
+  <script>
+  import { v4 as uuidv4 } from "uuid";
+  
+  export default {
+    data() {
+      return {
+        task: "",
+        todos: [],
+        searchTerm: "",
+        foundTasks: [], // New property to store found tasks
+      };
+    },
+    computed: {
+      filteredTodos() {
+        return this.foundTasks.length > 0 ? this.foundTasks : this.todos;
+      },
+    },
+    methods: {
+      toggleTaskStatus(id) {
+        const task = this.todos.find((todo) => todo.id === id);
+        if (task) {
+          task.status = !task.status;
+        }
+      },
+      addTask(e) {
+        e.preventDefault();
+        const newTask = {
+          id: uuidv4(),
+          details: this.task,
+          status: false,
+        };
+        this.todos.unshift(newTask);
+        this.task = "";
+      },
+      removeTask(id) {
+        const index = this.todos.findIndex((todo) => todo.id === id);
+        if (index !== -1) {
+          this.todos.splice(index, 1);
+        }
+      },
+      clearAllTasks() {
+        this.todos = [];
+      },
+      searchTask() {
+        this.foundTasks = this.todos.filter((todo) => {
+          return todo.details
+            .toLowerCase()
+            .includes(this.searchTerm.toLowerCase());
+        });
+      },
+    },
+  };
+  </script>
+  
+  <style>
+  .done-task {
+    text-decoration: line-through;
+  }
+  #app {
+    margin: 0;
+    padding: 0;
+    background: rgb(238, 174, 202);
+    background: radial-gradient(
+      circle,
+      rgba(238, 174, 202, 1) 0%,
+      rgba(148, 187, 233, 1) 100%
+    );
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+  }
+  
+  .container {
+    background: rgb(26, 13, 238);
+    background: linear-gradient(
+      90deg,
+      rgba(26, 13, 238, 1) 0%,
+      rgba(2, 14, 71, 1) 45%,
+      rgba(115, 4, 242, 1) 100%
+    );
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(127, 102, 49, 0.2);
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+    width: 400px;
+    text-align: center;
+    animation: slide-up 0.9s ease-in-out;
+    margin: 0 auto;
+    text-align: center;
+  }
+  
+  @keyframes slide-up {
+    0% {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .title2 h1 {
+    font-size: 36px;
+    margin: 0;
+    color: white;
+  }
+  
+  .actions2 {
+    margin-top: 20px;
+  }
+  
+  .actions form {
+    display: flex;
+    justify-content: center;
+  }
+  
+  .actions input[type="text"] {
+    padding: 10px;
+    width: 60%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+  }
+  
+  .actions button {
+    background: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    margin-left: 10px;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  .actions button:hover {
+    background: #0056b3;
+  }
+  
+  .tasks2 {
+    margin-top: 20px;
+  }
+  
+  .task-items {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 5px 0;
+    background: #fff;
+    animation: fade-in 0.5s ease-in-out;
+  }
+  
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  
+  .done-task {
+    text-decoration: line-through;
+  }
+  
+  .done-btn {
+    background-color: blue;
+    color: #fff;
+    width: auto;
+    height: auto;
+    font-size: 14px;
+    padding: 5px;
+    cursor: pointer;
+    border: 1px solid;
+    border-radius: 5px;
+    margin-left: auto;
+  }
+  .remove-btn {
+    background-color: red;
+    color: #fff;
+    width: auto;
+    height: auto;
+    font-size: 14px;
+    padding: 5px;
+    margin-right: 10px;
+    cursor: pointer;
+    border: 1px solid;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  .done-btn:hover,
+  .remove-btn:hover {
+    background: #d00;
+  }
+  
+  .clear-btn {
+    margin-top: 20px;
+    background: #f00;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    outline: none;
+  }
+  
+  .clear-btn:hover {
+    background: #d00;
+  }
+  </style>

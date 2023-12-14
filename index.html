@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- font awesome cdn -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"
+    />
+    <!-- custom css -->
+    <link rel="stylesheet" href="./src/assets/css/index.css" />
+    <title>Arbis Portfolio</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <!-- Include uuid library from CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/uuid@3.3.3"></script>
+  </head>
+  <body>
+    <div class="container">
+      <!-- header -->
+      <header class="header" id="home">
+        <h1 class="header-heading">Web Developer</h1>
+        <img
+          src="./src/assets/images/arbis2.jpg"
+          alt="/"
+          class="header-person-img"
+        />
+        <h3 class="header-person-name">JOHN OLIVER ARBIS</h3>
+        <a href="#projects" class="header-btn">Projects</a>
+      </header>
+      <!-- end header -->
+
+      <!-- navbar -->
+      <nav class="navbar">
+        <a href="#home" class="navbar-link">home</a>
+        <a href="#about" class="navbar-link">about</a>
+        <a href="#projects" class="navbar-link">portfolio</a>
+        <a href="#contact" class="navbar-link">contact</a>
+      </nav>
+      <!-- end navbar -->
+
+      <!-- about section -->
+      <section class="about" id="about">
+        <h1 class="about-heading section-heading">About Me</h1>
+        <div class="progress-bars-wrapper">
+          <div class="progress-bar">
+            <p class="progress-bar-text">
+              HTML
+              <span>97</span>%
+            </p>
+            <div class="progress-bar-percent"></div>
+          </div>
+
+          <div class="progress-bar">
+            <p class="progress-bar-text">
+              JavaScript
+              <span>91</span>%
+            </p>
+            <div class="progress-bar-percent"></div>
+          </div>
+
+          <div class="progress-bar">
+            <p class="progress-bar-text">
+              SASS
+              <span>87</span>%
+            </p>
+            <div class="progress-bar-percent"></div>
+          </div>
+
+          <div class="progress-bar">
+            <p class="progress-bar-text">
+              Ruby
+              <span>90</span>%
+            </p>
+            <div class="progress-bar-percent"></div>
+          </div>
+
+          <div class="progress-bar">
+            <p class="progress-bar-text">
+              Kotlin
+              <span>77</span>%
+            </p>
+            <div class="progress-bar-percent"></div>
+          </div>
+
+          <div class="progress-bar">
+            <p class="progress-bar-text">
+              MySQL
+              <span>90</span>%
+            </p>
+            <div class="progress-bar-percent"></div>
+          </div>
+        </div>
+        <div class="services">
+      </section>
+      <!-- end about section -->
+
+      <!-- projects section -->
+      <section class="projects" id="projects">
+        <h1>Todo App</h1>
+<div class="containernew">
+  <input type="text" placeholder="Add Task" id="todoInput" class="add-task-input" v-model="task" required />
+  <button onclick="addTask()">Add</button>
+  
+  <input type="text" placeholder="Search Task" id="searchInput" class="search-task-input" v-model="searchTerm" />  <div id="tasks"></div>
+
+  <button id="clearBtn" onclick="clearAllTasks()">Clear All</button>
+</div>
+  <script>
+    function addTask() {
+      const taskInput = document.getElementById('todoInput');
+      const taskText = taskInput.value.trim();
+
+      if (taskText === '') {
+        alert('Please enter a task.');
+        return;
+      }
+
+      const taskContainer = document.getElementById('tasks');
+      const taskElement = document.createElement('div');
+      taskElement.className = 'task';
+      taskElement.innerHTML = `
+        <p>${taskText}</p>
+        <button onclick="toggleDone(this)">Done</button>
+        <button onclick="removeTask(this)">Remove</button>
+      `;
+
+      taskContainer.appendChild(taskElement);
+      taskInput.value = '';
+      searchTasks();
+    }
+
+    function toggleDone(button) {
+      const taskElement = button.parentElement;
+      taskElement.querySelector('p').classList.toggle('done');
+    }
+
+    function removeTask(button) {
+      const taskElement = button.parentElement;
+      taskElement.remove();
+    }
+
+    function clearAllTasks() {
+      const taskContainer = document.getElementById('tasks');
+      taskContainer.innerHTML = '';
+    }
+
+    function searchTasks() {
+      const searchInput = document.getElementById('searchInput');
+      const searchTerm = searchInput.value.toLowerCase();
+      const tasks = document.getElementsByClassName('task');
+
+      Array.from(tasks).forEach(task => {
+        const taskText = task.querySelector('p').innerText.toLowerCase();
+        if (taskText.includes(searchTerm)) {
+          task.style.display = 'flex';
+        } else {
+          task.style.display = 'none';
+        }
+      });
+    }
+  </script>
+  <section>
+    <div class="container5">
+      <h1>API Calendar App</h1>
+      <div id="calendar"></div>
+  </div>
+
+  <script type="module" src="./src/assets/app.js"></script>
+  </section>
+      </section>
+      <!-- end projects section -->
+
+      <!-- contact section -->
+      <section class="contact" id="contact">
+        <h1 class="contact-heading section-heading">Contact Me</h1>
+        <form class="contact-form">
+          <input type="text" placeholder="Name" />
+          <input type="email" placeholder="Email" />
+          <textarea placeholder="Message"></textarea>
+          <input type="submit" value="Send" class="contact-form-btn" />
+        </form>
+      </section>
+      <!-- end contact section -->
+
+      <!-- footer -->
+      <footer class="footer">
+        <div class="social-media-icons">
+          <a href="#link" class="social-media-link">
+            <i class="fab fa-github-square"></i>
+          </a>
+          <a href="#link" class="social-media-link">
+            <i class="fab fa-facebook-square"></i>
+          </a>
+          <a href="#link" class="social-media-link">
+            <i class="fab fa-instagram-square"></i>
+          </a>
+          <a href="#link" class="social-media-link">
+            <i class="fab fa-youtube"></i>
+          </a>
+        </div>
+        <p class="copyright">Copyright &copy; Arbis. All Rights reserved</p>
+      </footer>
+      <!-- end footer -->
+    </div>
+    <script src="./src/assets/script.js"></script>
+  </body>
+</html>
