@@ -910,3 +910,9 @@ h1 {
   margin: 2px;
   border-radius: 3px;
 }
+.abouth1 {
+  text-align: center; /* Center-align the text */
+  max-width: 100%; /* Ensure it doesn't exceed its parent's width */
+  margin: 0 auto; /* Center horizontally */
+  color: black;
+}
